@@ -169,6 +169,35 @@ func (s *SmartContract) QueryAllAsset(ctx contractapi.TransactionContextInterfac
 	return results, nil
 }
 
+func (s *SmartContract) GetHistoryForAsset(ctx contractapi.TransactionContextInterface, assetNumber string) ([]QueryResult, error) {
+
+	resultsIterator, err := ctx.GetStub().GetHistoryForKey(assetNumber)
+
+	if err != nil {
+		return nil, err
+	}
+	defer resultsIterator.Close()
+
+	results := []QueryResult{}
+
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+
+		if err != nil {
+			return nil, err
+		}
+
+		asset := new(Asset)
+		_ = json.Unmarshal(queryResponse.GetValue(), asset)
+		fmt.Println(string(queryResponse.GetValue()))
+
+		queryResult := QueryResult{Key: queryResponse.TxId, Record: asset}
+		results = append(results, queryResult)
+	}
+
+	return results, nil
+}
+
 func main() {
 
 	chaincode, err := contractapi.NewChaincode(new(SmartContract))

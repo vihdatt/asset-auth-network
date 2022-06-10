@@ -206,6 +206,53 @@ chaincodeInvoke(){
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA $PEER_CONN_PARMS  \
         -c '{"function": "CreateAsset","Args":["ASSET3", "Than", "xe hoi", "hha", "111", "DQTT"]}'
     
+
+    peer chaincode invoke -o localhost:7050 \
+        --ordererTLSHostnameOverride orderer.assetauth.vn \
+        --tls $CORE_PEER_TLS_ENABLED \
+        --cafile $ORDERER_CA \
+        -C $CHANNEL_NAME -n ${CC_NAME}  \
+        --peerAddresses localhost:7051 \
+        --tlsRootCertFiles $PEER0_ORG1_CA \
+        --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA $PEER_CONN_PARMS  \
+        -c '{"function": "changeAssetOwner","args": ["ASSET0", "DamQuangTien000", "001"]}'
+
+    sleep 2
+
+    peer chaincode invoke -o localhost:7050 \
+            --ordererTLSHostnameOverride orderer.assetauth.vn \
+            --tls $CORE_PEER_TLS_ENABLED \
+            --cafile $ORDERER_CA \
+            -C $CHANNEL_NAME -n ${CC_NAME}  \
+            --peerAddresses localhost:7051 \
+            --tlsRootCertFiles $PEER0_ORG1_CA \
+            --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA $PEER_CONN_PARMS  \
+            -c '{"function": "changeAssetOwner","args": ["ASSET0", "DamQuangTien001", "002"]}'
+
+    sleep 2
+
+    peer chaincode invoke -o localhost:7050 \
+            --ordererTLSHostnameOverride orderer.assetauth.vn \
+            --tls $CORE_PEER_TLS_ENABLED \
+            --cafile $ORDERER_CA \
+            -C $CHANNEL_NAME -n ${CC_NAME}  \
+            --peerAddresses localhost:7051 \
+            --tlsRootCertFiles $PEER0_ORG1_CA \
+            --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA $PEER_CONN_PARMS  \
+            -c '{"function": "changeAssetOwner","args": ["ASSET0", "DamQuangTien002", "003"]}'
+
+    sleep 2
+    peer chaincode invoke -o localhost:7050 \
+            --ordererTLSHostnameOverride orderer.assetauth.vn \
+            --tls $CORE_PEER_TLS_ENABLED \
+            --cafile $ORDERER_CA \
+            -C $CHANNEL_NAME -n ${CC_NAME}  \
+            --peerAddresses localhost:7051 \
+            --tlsRootCertFiles $PEER0_ORG1_CA \
+            --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA $PEER_CONN_PARMS  \
+            -c '{"function": "getHistoryForAsset","args": ["ASSET0"]}'
+
+
     ## Change car owner
     # peer chaincode invoke -o localhost:7050 \
     #     --ordererTLSHostnameOverride orderer.assetauth.vn \
@@ -244,4 +291,7 @@ sleep 2
 chaincodeInvokeInit
 sleep 2
 chaincodeInvoke
+
+
+
 # chaincodeQuery
