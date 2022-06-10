@@ -3,7 +3,7 @@ import axios from 'axios';
 import axiosClient from './axiosClient';
 
 const getTokenRegister = (data) => {
-    const url = 'http://113.174.169.248:4000/users';
+    const url = 'http://localhost:4000/users';
     return axios.post(url, data, {
         headers: {
             'content-type': 'application/json',
